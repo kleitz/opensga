@@ -330,7 +330,7 @@
                     </li>
                     <!-- end: USER DROPDOWN -->
                     <!-- start: PAGE SIDEBAR TOGGLE -->
-                    <li>
+                    <li>   
                         <a class="sb-toggle" href="#"
                            onclick="ga('send', 'event', 'Links', 'chat Aberto', 'Aberto');"><i
                                     class="fa fa-outdent"></i></a>

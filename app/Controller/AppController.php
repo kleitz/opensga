@@ -92,7 +92,6 @@ class AppController extends Controller
         $this->Auth->unauthorizedRedirect = false;
         $paginationOptions = [];
 
-
         //Devemos forcar o prefixo para funcionarios da faculdade, docente e estudantes
         $general_actions = [
             'logout',
@@ -220,6 +219,7 @@ class AppController extends Controller
     {
         parent::beforeRender();
         $this->loadModel('Message');
+        $this->loadModel('OpensgaSession');
 
         $userId = $this->Session->read('Auth.User.id');
         if ($userId) {
@@ -256,10 +256,11 @@ class AppController extends Controller
 
         }
 
+        $onlineUsers = $this->OpensgaSession->getActiveUsers();
 
         $this->set(compact('totalMensagensPendentes', 'totalTarefasPendentes', 'totalNotificacoesPendentes',
             'headerMessages', 'tarefas',
-            'notificacoes'));
+            'notificacoes','onlineUsers'));
     }
 
 

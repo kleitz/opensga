@@ -474,6 +474,8 @@ class ManutencaoShell extends AppShell
         //Anterior 54 Novo 131
 
         $alunos = $this->Aluno->find('all', ['conditions' => ['curso_id' => 54, 'estado_aluno_id' => 1]]);
+
+        debug(count($alunos));
         foreach ($alunos as $aluno) {
 
             $data = [

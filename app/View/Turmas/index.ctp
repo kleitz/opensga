@@ -14,7 +14,7 @@
     <div class="action-list">
         <div class="col-sm-2">
             <?php
-                if ($estadoTurma['EstadoTurma']['id'] == 1) {
+                if ($estadoTurma2['EstadoTurma']['id'] == 1) {
                     echo $this->Html->link('<br/><i class="fa fa-plus"></i>	Ver Turmas Fechadas',
                             ['controller' => 'turmas', 'action' => 'index', '?' => ['estado_turma' => 2]],
                             ['escape' => false, 'class' => 'btn btn-icon btn-block']);

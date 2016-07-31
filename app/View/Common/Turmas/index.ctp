@@ -11,7 +11,7 @@
 ?>
 
 <?php echo $this->fetch('top-actions'); ?>
-<?php $this->assign('table-title', __('Turmas ' . $estadoTurma['EstadoTurma']['name'])) ?>
+<?php $this->assign('table-title', __('Turmas ' . $estadoTurma2['EstadoTurma']['name'])) ?>
 <?php $this->start('filter-form') ?>
 <?php echo $this->Form->create('Turma', [
         'role'          => 'form',
@@ -50,7 +50,14 @@
                 ]); ?>
             </div>
             <div class="col-md-3">
-                <?php echo $this->Form->end([
+                <?php
+                if($estadoTurma){
+                    echo $this->Form->input('Turma.estado_turma', [
+                        'type'=>'hidden',
+                        'value'=>$estadoTurma
+                    ]);
+                }
+                echo $this->Form->end([
                         'label' => __('Pesquisar', true),
                         'class' => 'btn btn-blue next-step btn-block',
                 ]); ?>

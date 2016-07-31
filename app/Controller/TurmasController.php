@@ -1080,7 +1080,6 @@ class TurmasController extends AppController
                 $conditions['AnoLectivo.ano'] = $this->request->params['named']['ano_lectivo'];
             }
         }
-        $conditions['Turma.estado_turma_id'] = 1;
         $this->paginate = [
             'conditions' => $conditions,
             'contain' => [
@@ -1099,9 +1098,9 @@ class TurmasController extends AppController
         ];
 
         $cursos = $this->Turma->Curso->find('list');
-        $estadoTurma = $this->Turma->EstadoTurma->findById($conditions['Turma.estado_turma_id']);
+        $estadoTurma2 = $this->Turma->EstadoTurma->findById($conditions['Turma.estado_turma_id']);
         $turmas = $this->paginate('Turma');
-        $this->set(compact('turmas', 'paginationOptions', 'estadoTurma','cursos'));
+        $this->set(compact('turmas', 'paginationOptions', 'estadoTurma2','cursos','estadoTurma'));
     }
 
     public function inscrever_aluno($alunoId, $turmaId)

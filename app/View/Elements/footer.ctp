@@ -8,7 +8,7 @@
     </div>
 </div>
 <!-- end: FOOTER -->
-<?php //echo $this->Element('right_sidebar') ?>
+<?php echo $this->Element('right_sidebar') ?>
 <?php echo $this->Element('whats_new') ?>
 <!-- start: MAIN JAVASCRIPTS -->
 

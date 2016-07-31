@@ -6,121 +6,30 @@
             <li class="active">
                 <a href="#users" role="tab" data-toggle="tab"><i class="fa fa-users"></i></a>
             </li>
-            <li>
+            <!--<li>
                 <a href="#favorites" role="tab" data-toggle="tab"><i class="fa fa-heart"></i></a>
             </li>
             <li>
                 <a href="#settings" role="tab" data-toggle="tab"><i class="fa fa-gear"></i></a>
-            </li>
+            </li>-->
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="users">
                 <div class="users-list">
-                    <h5 class="sidebar-title">On-line</h5>
+                    <h5 class="sidebar-title">Usuários Online</h5>
                     <ul class="media-list">
+                        <?php foreach($onlineUsers as $onlineUser): ?>
                         <li class="media">
                             <a href="#">
                                 <i class="fa fa-circle status-online"></i>
                                 <img alt="..." src="/assets/images/avatar-2.jpg" class="media-object">
                                 <div class="media-body">
-                                    <h4 class="media-heading">Nicole Bell</h4>
-                                    <span> Content Designer </span>
+                                    <h4 class="media-heading"><?= $onlineUser['username']?></h4>
+                                    <span> <?= $onlineUser['username']?> </span>
                                 </div>
                             </a>
                         </li>
-                        <li class="media">
-                            <a href="#">
-                                <div class="user-label">
-                                    <span class="label label-success">3</span>
-                                </div>
-                                <i class="fa fa-circle status-online"></i>
-                                <img alt="..." src="/assets/images/avatar-3.jpg" class="media-object">
-                                <div class="media-body">
-                                    <h4 class="media-heading">Steven Thompson</h4>
-                                    <span> Visual Designer </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="media">
-                            <a href="#">
-                                <i class="fa fa-circle status-online"></i>
-                                <img alt="..." src="/assets/images/avatar-4.jpg" class="media-object">
-                                <div class="media-body">
-                                    <h4 class="media-heading">Ella Patterson</h4>
-                                    <span> Web Editor </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="media">
-                            <a href="#">
-                                <i class="fa fa-circle status-online"></i>
-                                <img alt="..." src="/assets/images/avatar-5.jpg" class="media-object">
-                                <div class="media-body">
-                                    <h4 class="media-heading">Kenneth Ross</h4>
-                                    <span> Senior Designer </span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                    <h5 class="sidebar-title">Off-line</h5>
-                    <ul class="media-list">
-                        <li class="media">
-                            <a href="#">
-                                <img alt="..." src="/assets/images/avatar-6.jpg" class="media-object">
-                                <div class="media-body">
-                                    <h4 class="media-heading">Nicole Bell</h4>
-                                    <span> Content Designer </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="media">
-                            <a href="#">
-                                <div class="user-label">
-                                    <span class="label label-success">3</span>
-                                </div>
-                                <img alt="..." src="/assets/images/avatar-7.jpg" class="media-object">
-                                <div class="media-body">
-                                    <h4 class="media-heading">Steven Thompson</h4>
-                                    <span> Visual Designer </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="media">
-                            <a href="#">
-                                <img alt="..." src="/assets/images/avatar-8.jpg" class="media-object">
-                                <div class="media-body">
-                                    <h4 class="media-heading">Ella Patterson</h4>
-                                    <span> Web Editor </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="media">
-                            <a href="#">
-                                <img alt="..." src="/assets/images/avatar-9.jpg" class="media-object">
-                                <div class="media-body">
-                                    <h4 class="media-heading">Kenneth Ross</h4>
-                                    <span> Senior Designer </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="media">
-                            <a href="#">
-                                <img alt="..." src="/assets/images/avatar-10.jpg" class="media-object">
-                                <div class="media-body">
-                                    <h4 class="media-heading">Ella Patterson</h4>
-                                    <span> Web Editor </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="media">
-                            <a href="#">
-                                <img alt="..." src="/assets/images/avatar-5.jpg" class="media-object">
-                                <div class="media-body">
-                                    <h4 class="media-heading">Kenneth Ross</h4>
-                                    <span> Senior Designer </span>
-                                </div>
-                            </a>
-                        </li>
+                        <?php endforeach;?>
                     </ul>
                 </div>
                 <div class="user-chat">
