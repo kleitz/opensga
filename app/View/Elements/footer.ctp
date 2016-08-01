@@ -72,7 +72,10 @@ echo $this->Html->script('/assets/js/jsxc.opensga');
         }, duration);
     });
     $(document).ready(function () {
-        $('#button').click(jsxc.gui.showLoginBox);
+        
+        $('#ajuda-suporte').click(function() {
+            $(document).trigger('toggle.roster.jsxc', ['show', 0]);
+        });
         Main.init();
         $('input').iCheck({
             checkboxClass: 'icheckbox_minimal-green',
@@ -104,55 +107,6 @@ echo $this->Html->script('/assets/js/jsxc.opensga');
         $('#datetimepicker1').datetimepicker();
     });
 </script>
-<?php if (Configure::read('environment') == 'prod'): ?>
-    <!--Start of Zopim Live Chat Script-->
-    <script type="text/javascript">
-        window.$zopim || (function (d, s) {
-            var z = $zopim = function (c) {
-                z._.push(c)
-            }, $ = z.s =
-                    d.createElement(s), e = d.getElementsByTagName(s)[0];
-            z.set = function (o) {
-                z.set._.push(o)
-            };
-            z._ = [];
-            z.set._ = [];
-            $.async = !0;
-            $.setAttribute("charset", "utf-8");
-            $.src = "//v2.zopim.com/?3WnXWSTZHxq02GapZvrf8igf2fk66CfB";
-            z.t = +new Date;
-            $.type = "text/javascript";
-            e.parentNode.insertBefore($, e)
-        })(document, "script");
-    </script>
-    <script>
-
-        $zopim(function () {
-            $zopim.livechat.setName('<?= $this->Session->read('Auth.User.name')?>');
-            $zopim.livechat.setEmail('<?= $this->Session->read('Auth.User.username')?>');
-            $zopim.livechat.setLanguage('pt');
-            $zopim.livechat.setGreetings({
-                'online': 'Converse Conosco',
-                'offline': 'Deixe uma Mensagem'
-            });
-        });
-
-    </script>
-
-    <script type="text/javascript">
-        var ua = navigator.userAgent.toLowerCase(),
-                platform = navigator.platform.toLowerCase();
-        platformName = ua.match(/ip(?:ad|od|hone)/) ? 'ios' : (ua.match(/(?:webos|android)/) || platform.match(/mac|win|linux/) || ['other'])[0],
-                isMobile = /ios|android|webos/.test(platformName);
-
-        if (isMobile) {
-
-            $zopim.livechat.addTags('Mobile');
-
-        }
-    </script>
-    <!--End of Zopim Live Chat Script-->
-<?php endif; ?>
 <!-- end: MAIN JAVASCRIPTS -->
 <?php echo $this->NewRelic->end(); ?>
 

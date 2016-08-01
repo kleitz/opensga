@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3d4cd9095a1f311f8682f9056d0f36d1",
-    "content-hash": "79ca51206393824d311d3c71cfeb455b",
+    "hash": "a91993d6f2fc6d42bca2e01645e3145e",
+    "content-hash": "a2ae82dc3ed240be0f6ba1137599cf32",
     "packages": [
         {
             "name": "alliedhealthmedia/icing",
@@ -687,14 +687,8 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/gidkom/php-openfire-restapi.git",
+                "url": "https://github.com/backstageel/php-openfire-restapi.git",
                 "reference": "2292e93060c67d0f6c549a523d3178d7ec884d16"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/gidkom/php-openfire-restapi/zipball/2292e93060c67d0f6c549a523d3178d7ec884d16",
-                "reference": "2292e93060c67d0f6c549a523d3178d7ec884d16",
-                "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
@@ -707,7 +701,6 @@
                     "Gidkom\\OpenFireRestApi": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -724,6 +717,10 @@
                 "openfire",
                 "xmpp"
             ],
+            "support": {
+                "email": "yoroumah@gmail.com",
+                "issues": "https://github.com/gidkom/php-openfire-restapi/issues"
+            },
             "time": "2016-06-25 23:07:25"
         },
         {

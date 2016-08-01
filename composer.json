@@ -44,6 +44,10 @@
     {
       "type": "git",
       "url": "https://github.com/backstageel/WhoopsCakephp.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/backstageel/php-openfire-restapi.git"
     }
   ],
   "require": {
