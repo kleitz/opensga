@@ -15,7 +15,7 @@
             <!-- end: SIDEBAR -->
         </div>
         <!-- start: PAGE -->
-        <div class="main-content">
+        <div class="main-content" id="content">
 
             <!-- start: PAGE HEADER -->
             <div class="row">

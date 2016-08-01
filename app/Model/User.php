@@ -625,6 +625,7 @@ class User extends AppModel
         $api->useSSL = false;
         $api->plugin = "/plugins/restapi/v1";  // plugin
 
+
         $username1 = str_replace('@',"!",$username);
 // Add a new user to OpenFire and add to a group
         try{
@@ -637,15 +638,18 @@ class User extends AppModel
             } else{
                 $result = $api->updateUser($username1, $password, $nomeCompleto, $user, array('Principal'));
             }
+            $api->addUserToGroup($username1,'Principal');
 
         } catch (Exception  $e){
             if($e->getCode()==404){
                 $result = $api->addUser($username1, $password, $nomeCompleto, $username, array('Principal'));
+                $api->addUserToGroup($username1,'Principal');
             } else{
                 debug($e->getMessage());
                 die();
             }
         }
+
     }
 
 }

@@ -8,7 +8,7 @@ $(function() {
         logoutElement: $('#logout'),
         root: '/assets/jsxc',
         xmpp: {
-            url: 'http://siga.uem.mz:7070/http-bind/',
+            url: 'http://siga.uem.mz/http-bind/',
             domain: 'siga.uem.mz',
             resource: '',
             overwrite: true,
