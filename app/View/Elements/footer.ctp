@@ -1,4 +1,5 @@
 <!-- start: FOOTER -->
+
 <div class="footer clearfix">
     <div class="footer-inner">
         <?php echo $this->Element('copyright') ?>
@@ -8,7 +9,7 @@
     </div>
 </div>
 <!-- end: FOOTER -->
-<?php echo $this->Element('right_sidebar') ?>
+<?php //echo $this->Element('right_sidebar') ?>
 <?php echo $this->Element('whats_new') ?>
 <!-- start: MAIN JAVASCRIPTS -->
 
@@ -51,13 +52,27 @@ echo $this->Html->script(['/assets/plugins/excanvas.min']);
     echo $this->Html->script('/assets/plugins/ckeditor/ckeditor');
     echo $this->Html->script('/assets/plugins/ckeditor/adapters/jquery');
 
+echo $this->Html->script('/assets/jsxc/lib/jquery.slimscroll');
+echo $this->Html->script('/assets/jsxc/lib/jquery.fullscreen');
+echo $this->Html->script('/assets/jsxc/lib/jsxc.dep');
+echo $this->Html->script('/assets/jsxc/jsxc');
+echo $this->Html->script('/assets/js/jsxc.opensga');
+
 
     echo $this->Html->script(['/assets/js/main']);
     echo $this->Html->script(['/assets/js/opensga']);
 ?>
 <script>
+    $(document).on('ready.roster.jsxc', function(){
+        $('#content').css('right', $('#jsxc_roster').outerWidth() + parseFloat($('#jsxc_roster').css('right')));
+    });
+    $(document).on('toggle.roster.jsxc', function(event, state, duration){
+        $('#content').animate({
+            right: ((state === 'shown') ? $('#jsxc_roster').outerWidth() : 0) + 'px'
+        }, duration);
+    });
     $(document).ready(function () {
-
+        $('#button').click(jsxc.gui.showLoginBox);
         Main.init();
         $('input').iCheck({
             checkboxClass: 'icheckbox_minimal-green',

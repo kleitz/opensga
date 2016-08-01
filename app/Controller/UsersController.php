@@ -665,6 +665,7 @@ class UsersController extends AppController
                             'username' => $aluno['Entidade']['User']['username'],
                         ];
                         CakeRabbit::publish($message);
+                        $this->User->createOrUpdateOpenFire($aluno['Entidade']['User']['username'],$this->request->data['User']['password'],$aluno['Entidade']['name']);
                         $this->redirect([
                             'controller' => 'users',
                             'action' => 'trocar_senha',
@@ -721,6 +722,7 @@ class UsersController extends AppController
                     'username' => $User['username'],
                 ];
                 RabbitMQ::publish($message);
+                $this->User->createOrUpdateOpenFire($User['username'],$this->request->data['User']['password'],$entidade['Entidade']['name']);
                 if ($User['group_id'] == 1) {
                     $unidade_organicas = $this->User->Funcionario->UnidadeOrganica->find('list');
                     $this->Session->write('Auth.User.unidade_organicas', $unidade_organicas);

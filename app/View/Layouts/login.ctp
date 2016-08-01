@@ -41,6 +41,13 @@
         echo $this->Html->css('/assets/css/theme_green.css');
         echo $this->Html->css('/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min');
 
+    echo $this->Html->css('/assets/jsxc/css/jquery-ui.min.css');
+    echo $this->Html->css('/assets/jsxc/css/jsxc.css');
+    echo $this->Html->css('/assets/css/jsxc.opensga.css');
+    echo $this->Html->css('/assets/css/opensga.css');
+    echo $this->Html->css('/assets/plugins/select2/dist/css/select2.css');
+    echo $this->Html->css('/assets/plugins/select2/dist/css/select2-bootstrap.min');
+
         echo $this->Html->css('/assets/css/opensga.css');
         echo $this->Html->css('/assets/plugins/select2/dist/css/select2.css');
         echo $this->Html->css('/assets/plugins/select2/dist/css/select2-bootstrap.min');
@@ -92,7 +99,7 @@
                     <!-- end: LOGO -->
                 </div>
             </div>
-            <?php echo $this->Form->create('User', ['url' => ['action' => 'login']]); ?>
+            <?php echo $this->Form->create('User', ['url' => ['action' => 'login'],'id'=>'form']); ?>
             <div class="col-sm-10">
 
                 <div class="row pull-right navbar-brand">
@@ -102,7 +109,25 @@
                                 'label'       => false,
                                 'class'       => 'form-control',
                                 'placeholder' => 'Nome de Usuario ou Email Institucional',
+                                'id'=>'username2',
+                            'onChange'=>'processaUsername()'
                         ]) ?>
+                        <?php echo $this->Form->input('username2', [
+                            'div'         => false,
+                            'label'       => false,
+                            'class'       => 'form-control',
+                            'placeholder' => 'Nome de Usuario ou Email Institucional',
+                            'id'=>'username',
+                            'style'=>'display:none'
+                        ]) ?>
+                        <script>
+                            function processaUsername(){
+                                var lol = document.getElementById('username2').value;
+                                var res = lol.replace("@", "!");
+                                document.getElementById('username').value = res;
+                            }
+
+                            </script>
                     </div>
                     <div class="col-sm-3">
                         <?php echo $this->Form->input('password', [
@@ -110,6 +135,7 @@
                                 'label'       => false,
                                 'class'       => 'form-control',
                                 'placeholder' => 'Senha',
+                                'id'=>'password'
                         ]) ?>
                     </div>
                     <div class="col-sm-1">
@@ -342,38 +368,17 @@
     <!-- end: LOGIN BOX -->
 
 </div>
-<?php if (Configure::read('environment') == 'prod'): ?>
-    <script type="text/javascript">
-        window.$zopim || (function (d, s) {
-            var z = $zopim = function (c) {
-                z._.push(c)
-            }, $ = z.s =
-                    d.createElement(s), e = d.getElementsByTagName(s)[0];
-            z.set = function (o) {
-                z.set._.push(o)
-            };
-            z._ = [];
-            z.set._ = [];
-            $.async = !0;
-            $.setAttribute("charset", "utf-8");
-            $.src = "//v2.zopim.com/?3WnXWSTZHxq02GapZvrf8igf2fk66CfB";
-            z.t = +new Date;
-            $.type = "text/javascript";
-            e.parentNode.insertBefore($, e)
-        })(document, "script");
-    </script>
-    <script>
 
-        $zopim(function () {
-            $zopim.livechat.setLanguage('pt');
-            $zopim.livechat.setGreetings({
-                'online': 'Converse Conosco',
-                'offline': 'Deixe uma Mensagem'
-            });
-        });
+<?php
+echo $this->Html->script(['/assets/plugins/jquery-2.0.3.min']);
+echo $this->Html->script(['/assets/plugins/jquery-ui/jquery-ui-1.10.2.custom.min']);
+echo $this->Html->script('/assets/jsxc/lib/jquery.slimscroll');
+echo $this->Html->script('/assets/jsxc/lib/jquery.fullscreen');
+echo $this->Html->script('/assets/jsxc/lib/jsxc.dep');
+echo $this->Html->script('/assets/jsxc/jsxc');
+echo $this->Html->script('/assets/js/jsxc.opensga');
 
-    </script>
-<?php endif; ?>
+?>
 <?php echo $this->NewRelic->end(); ?>
 </body>
 </html>

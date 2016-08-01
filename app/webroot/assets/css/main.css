@@ -1452,7 +1452,7 @@ li.dropdown.current-user .dropdown-menu li a {
 .main-navigation {
     padding: 0;
     max-height: none !important;
-    z-index: 1000;
+    z-index: 9;
 }
 
 ul.main-navigation-menu {
@@ -1710,10 +1710,15 @@ ul.main-navigation-menu > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu
     left: 0;
     position: fixed;
     right: 0;
-    z-index: 1000;
+    z-index: 10;
     border-top-width: 1px;
     border-top-style: solid;
 }
+
+.navbar-fixed-top {
+    z-index: 10;
+}
+
 
 /* ---------------------------------------------------------------------- */
 /*	Breadcrumb

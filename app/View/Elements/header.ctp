@@ -30,6 +30,9 @@
     <meta content="Elisio Leonardo" name="author"/>
     <meta name="google-site-verification" content="ljmJ-ygf8VVfKZs11OOKbkUr3SMMQRST_2FruT3Lpss"/>
     <!-- end: META -->
+
+
+    
     <!-- start: MAIN CSS -->
     <?php
         echo $this->Html->css('/assets/plugins/bootstrap/css/bootstrap.min.css', ['media' => 'screen']);
@@ -44,6 +47,9 @@
         echo $this->Html->css('/assets/css/theme_green.css');
         echo $this->Html->css('/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min');
 
+    echo $this->Html->css('/assets/jsxc/css/jquery-ui.min.css');
+    echo $this->Html->css('/assets/jsxc/css/jsxc.css');
+    echo $this->Html->css('/assets/css/jsxc.opensga.css');
         echo $this->Html->css('/assets/css/opensga.css');
         echo $this->Html->css('/assets/plugins/select2/dist/css/select2.css');
         echo $this->Html->css('/assets/plugins/select2/dist/css/select2-bootstrap.min');
@@ -324,13 +330,13 @@
                                         'action'     => 'logout',
                                         'plugin'     => false,
                                     'estudante'=>false,'docente'=>false,'faculdade'=>false
-                                ], ['escape' => false]) ?>
+                                ], ['escape' => false,'id'=>'logout']) ?>
                             </li>
                         </ul>
                     </li>
                     <!-- end: USER DROPDOWN -->
                     <!-- start: PAGE SIDEBAR TOGGLE -->
-                    <li>   
+                    <li>
                         <a class="sb-toggle" href="#"
                            onclick="ga('send', 'event', 'Links', 'chat Aberto', 'Aberto');"><i
                                     class="fa fa-outdent"></i></a>

@@ -611,6 +611,43 @@ class User extends AppModel
         }
     }
 
+    public function createOrUpdateOpenFire($username,$password,$nomeCompleto){
+        // Create the Openfire Rest api object
+        $api = new Gidkom\OpenFireRestApi\OpenFireRestApi;
+
+// Set the required config parameters
+        $api->secret = "0DBP2j3HC5bf1djw";
+        $api->host = "siga.uem.mz";
+        $api->port = "9090";  // default 9090
+
+// Optional parameters (showing default values)
+
+        $api->useSSL = false;
+        $api->plugin = "/plugins/restapi/v1";  // plugin
+
+        $username1 = str_replace('@',"!",$username);
+// Add a new user to OpenFire and add to a group
+        try{
+            $user = $api->getuser($username1);
+
+            if(!$user)
+            {
+                $result = $api->addUser($username1, $password, $nomeCompleto, $username, array('Principal'));
+
+            } else{
+                $result = $api->updateUser($username1, $password, $nomeCompleto, $user, array('Principal'));
+            }
+
+        } catch (Exception  $e){
+            if($e->getCode()==404){
+                $result = $api->addUser($username1, $password, $nomeCompleto, $username, array('Principal'));
+            } else{
+                debug($e->getMessage());
+                die();
+            }
+        }
+    }
+
 }
 
 ?>

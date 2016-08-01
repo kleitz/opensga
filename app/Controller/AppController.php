@@ -256,7 +256,7 @@ class AppController extends Controller
 
         }
 
-        $onlineUsers = $this->OpensgaSession->getActiveUsers();
+        //$onlineUsers = $this->OpensgaSession->getActiveUsers();
 
         $this->set(compact('totalMensagensPendentes', 'totalTarefasPendentes', 'totalNotificacoesPendentes',
             'headerMessages', 'tarefas',
