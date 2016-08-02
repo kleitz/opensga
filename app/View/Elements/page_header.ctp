@@ -19,7 +19,7 @@
         <ul class="breadcrumb">
             <li>Ano Lectivo: <?php echo Configure::read('OpenSGA.ano_lectivo') ?></li>
             <li>Semestre Lectivo: <?php echo Configure::read('OpenSGA.semestre_lectivo') ?></li>
-            <li><a id="ajuda-suporte"><i class="fa  fa-wrench fa-2x" style="color:red"></i><b>Ajuda/Suporte</b></a></li>
+            <li><a id="ajuda-suporte", style="cursor: pointer;"><i class="fa  fa-wrench fa-2x" style="color:red"></i><b>Abrir/Fechar Chat</b></a></li>
 
         </ul>
 

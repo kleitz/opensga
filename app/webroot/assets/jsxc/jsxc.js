@@ -443,7 +443,6 @@ jsxc = {
       username = username || $(jsxc.options.loginForm.jid).val();
       password = password || $(jsxc.options.loginForm.pass).val();
 
-
       if (!jsxc.triggeredFromBox && (jsxc.options.loginForm.onConnecting === 'dialog' || typeof jsxc.options.loginForm.onConnecting === 'undefined')) {
          jsxc.gui.showWaitAlert($.t('Logging_in'));
       }

@@ -34,3 +34,7 @@ tr.clickableRow:hover {
 .actualizar-notas .checkbox {
     left: 20px;
 }
+
+#content{
+    position:absolute;
+}

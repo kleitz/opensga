@@ -63,19 +63,9 @@ echo $this->Html->script('/assets/js/jsxc.opensga');
     echo $this->Html->script(['/assets/js/opensga']);
 ?>
 <script>
-    $(document).on('ready.roster.jsxc', function(){
-        $('#content').css('right', $('#jsxc_roster').outerWidth() + parseFloat($('#jsxc_roster').css('right')));
-    });
-    $(document).on('toggle.roster.jsxc', function(event, state, duration){
-        $('#content').animate({
-            right: ((state === 'shown') ? $('#jsxc_roster').outerWidth() : 0) + 'px'
-        }, duration);
-    });
+    
     $(document).ready(function () {
         
-        $('#ajuda-suporte').click(function() {
-            $(document).trigger('toggle.roster.jsxc', ['show', 0]);
-        });
         Main.init();
         $('input').iCheck({
             checkboxClass: 'icheckbox_minimal-green',
