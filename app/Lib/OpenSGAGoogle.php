@@ -116,7 +116,7 @@ class OpenSGAGoogle
     public function init()
     {
         $service_account_name = 'opensga-uem@siga-uem.iam.gserviceaccount.com'; // 'EMAIL ADDRESS' on Google
-        $key_file_location = '/home/backstageel/opensga_google_client.json';
+        $key_file_location = '/etc/opensga/opensga_google_client.json';
         $key = json_decode(file_get_contents($key_file_location));
 
         $delegatedAdmin = 'elisio.leonardo@uem.ac.mz';
