@@ -3,6 +3,7 @@
 ini_set('memory_limit', "2048M");
 ini_set('xdebug.max_nesting_level', 20000);
 App::uses('AuditableConfig', 'Auditable.Lib');
+App::uses('OpenSGAGoogle', 'Lib');
 
 class S3Shell extends AppShell
 {
@@ -30,19 +31,15 @@ class S3Shell extends AppShell
 
     public function test()
     {
-        $message = [
+        $google = new OpenSGAGoogle();
+        try {
 
-            //'Type'=>'cake',
-            'Command' => 'S3',
-            'Action' => 'recebeErro',
-            //'turmaId' => 1,
-        ];
-        RabbitMQ::publish($message);
-    }
-
-    public function recebeErro()
-    {
-        throw new Exception('Erro qualquer');
+            $emailCriado = $google->createUser('teste.email.2@uem.ac.mz', 'Teste','Email','siga@12345678');
+            debug($emailCriado);
+        } catch (Exception $e) {
+            debug($e->getMessage());
+            debug($e->getCode());
+        }
     }
 
 

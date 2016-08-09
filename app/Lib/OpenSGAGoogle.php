@@ -77,22 +77,7 @@ class OpenSGAGoogle
          * Create Google_Client for making API calls
          */
 
-        $cred = $this->init();
-        $config = new Google_Config();
-        $config->setClassConfig('Google_Cache_File', array('directory' => APP . 'tmp/cache'));
-        $client = new Google_Client($config);
-
-        $client->setCache(new Google_Cache_File($client));
-
-        $client->setApplicationName("This is the name");
-        $cred->sub = 'elisio.leonardo@uem.ac.mz';
-        $client->setAssertionCredentials($cred);
-        if ($client->getAuth()->isAccessTokenExpired()) {
-            $client->getAuth()->refreshTokenWithAssertion($cred);
-        }
-        /**
-         * Create Google_Service_Directory
-         */
+        $client = $this->init();
         $service = new Google_Service_Directory($client);
         /**
          * Create the user
@@ -130,50 +115,37 @@ class OpenSGAGoogle
 
     public function init()
     {
+        $service_account_name = 'opensga-uem@siga-uem.iam.gserviceaccount.com'; // 'EMAIL ADDRESS' on Google
+        $key_file_location = '/home/backstageel/opensga_google_client.json';
+        $key = json_decode(file_get_contents($key_file_location));
 
-
-        /**
-         * Client id and service account name as reported
-         * on https://console.developers.google.com/ - Projects - Credentials
-         */
-        $client_id = '482133242525-6hnbvlngksqetc3ho7tfipapukkaccqf.apps.googleusercontent.com'; // 'CLIENT ID' on Google
-        $service_account_name = '482133242525-6hnbvlngksqetc3ho7tfipapukkaccqf@developer.gserviceaccount.com'; // 'EMAIL ADDRESS' on Google
-
-        /**
-         * This is the .p12 file generated on https://console.developers.google.com/ - Projects - Credentials
-         */
-        $key_file_location = Configure::read('GOOGLEP12Location');
-
-        /**
-         * Email address for admin user that should be used to perform API actions
-         * Needs to be created via Google Apps Admin interface and be added to an admin role
-         * that has permissions for Admin APIs for Users
-         */
         $delegatedAdmin = 'elisio.leonardo@uem.ac.mz';
-
-        /**
-         * Array of scopes you need for whatever actions you want to perform
-         * See https://developers.google.com/admin-sdk/directory/v1/guides/authorizing
-         * The admin.directory.user is needed to create the user, the admin.directory.group is needed to add the
-         * user to a group (see later on this file)
-         */
         $scopes = [
             'https://www.googleapis.com/auth/admin.directory.user',
             'https://www.googleapis.com/auth/admin.directory.group',
         ];
 
-        /**
-         * Create AssertionCredentails object for use with Google_Client
-         */
         $cred = new Google_Auth_AssertionCredentials(
             $service_account_name,
             $scopes,
-            file_get_contents($key_file_location)
+            $key->private_key
         );
         /**
          * API requests shall be used using the delegated admin
          */
-//$cred->sub = $delegatedAdmin;
-        return $cred;
+        $cred->sub = $delegatedAdmin;
+        $config = new Google_Config();
+        $config->setClassConfig('Google_Cache_File', ['directory' => APP . 'tmp/cache']);
+        $client = new Google_Client($config);
+        $client->setCache(new Google_Cache_File($client));
+
+        $client->setApplicationName("This is the name");
+        $cred->sub = 'elisio.leonardo@uem.ac.mz';
+        $client->setAssertionCredentials($cred);
+        if ($client->getAuth()->isAccessTokenExpired()) {
+            $client->getAuth()->refreshTokenWithAssertion($cred);
+        }
+
+        return $client;
     }
 }
