@@ -398,17 +398,15 @@ class FuncionarioShell extends AppShell
         } else {
             $emailTo = [$emailPessoal, $funcionario['Entidade']['User']['username']];
         }
-        debug($emailTo);
-        debug($emailCriado);
-        die();
-        $Email = new CakeEmail();
+
+       /* $Email = new CakeEmail();
         $Email->config('smtp')
             ->emailFormat('html')
             ->to($emailTo)
             ->cc(['elisio.leonardo@gmail.com', 'sergiobata@gmail.com'])
             ->domain('siga.uem.mz')
             ->subject('Novo Usuario Cadastrado no SIGA')
-            ->send($emailBody);
+            ->send($emailBody);*/
 
 
         //debug($funcionario);
