@@ -1,0 +1,10 @@
+[Unit]
+Description=OpenSGA RabbitMQ Service Daemon
+
+[Service]
+WorkingDirectory=/var/www/opensga/app
+ExecStart=/var/www/opensga/Vendor/bin/cake RabbitMQ
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

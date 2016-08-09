@@ -1202,6 +1202,12 @@ class InscricaosController extends AppController
     public function faculdade_relatorio_inscricoes_semestre()
     {
 
+        
+    }
+
+    public function faculdade_relatorio_inscricoes_por_curso(){
+
+
     }
 
     public function faculdade_relatorio_inscricoes_por_cadeira()

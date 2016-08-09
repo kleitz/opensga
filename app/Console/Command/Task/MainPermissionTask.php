@@ -134,6 +134,7 @@ class MainPermissionTask extends AppShell
                 $comandos[] = "acl grant User.{$funcionario['User']['id']} controllers/Inscricaos/faculdade_relatorios";
                 $comandos[] = "acl grant User.{$funcionario['User']['id']} controllers/Inscricaos/faculdade_relatorio_inscricoes_semestre";
                 $comandos[] = "acl grant User.{$funcionario['User']['id']} controllers/Inscricaos/faculdade_relatorio_inscricoes_por_cadeira";
+                $comandos[] = "acl grant User.{$funcionario['User']['id']} controllers/Inscricaos/faculdade_relatorio_inscricoes_por_curso";
 
                 $comandos[] = "acl grant User.{$funcionario['User']['id']} controllers/Matriculas/faculdade_renovar_matricula";
                 $comandos[] = "acl grant User.{$funcionario['User']['id']} controllers/Matriculas/faculdade_print_comprovativo_matricula";
