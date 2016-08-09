@@ -22,8 +22,8 @@ echo $this->Html->script(['/assets/plugins/excanvas.min']);
 <![endif]-->
 
 <?php
-    echo $this->Html->script(['/assets/plugins/jquery-2.0.3.min']);
-    echo $this->Html->script(['/assets/plugins/jquery-ui/jquery-ui-1.10.2.custom.min']);
+    echo $this->Html->script(['/assets/plugins/jquery-3.1.0.min']);
+    echo $this->Html->script(['/assets/plugins/jquery-ui/jquery-ui.min']);
     echo $this->Html->script(['/assets/plugins/bootstrap/js/bootstrap.min']);
     echo $this->Html->script(['/assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min']);
     echo $this->Html->script(['/assets/plugins/blockUI/jquery.blockUI']);

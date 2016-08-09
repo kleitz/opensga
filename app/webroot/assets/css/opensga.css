@@ -37,4 +37,6 @@ tr.clickableRow:hover {
 
 #content{
     position:absolute;
+    left:0px;
+    right: 0px;
 }

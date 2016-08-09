@@ -42,7 +42,7 @@
                                         ['controller' => 'avaliacaos', 'action' => 'index', 'docente' => true]) ?></li>
                         </ul>
                     </li>
-                    <li>
+                    <!--<li>
                         <a href="javascript:void(0)"><i class="clip-attachment-2"></i>
                             <span class="title">Avaliacao de Desempenho</span><i class="icon-arrow"></i>
                             <span class="selected"></span>
@@ -101,7 +101,7 @@
                                         ['controller' => 'relatorios', 'action' => 'estudantes_por_faculdade'],
                                         ['class' => 'link']); ?></li>
                         </ul>
-                    </li>
+                    </li>-->
                 </ul>
                 <!-- end: MAIN NAVIGATION MENU -->
 <?php $this->end(); ?>

@@ -170,6 +170,39 @@ class TurmasController extends AppController
         $this->set(compact('turma', 'docentes', 'tipoDocenteTurmas', 'turma_id'));
     }
 
+    public function docente_adicionar_assistente($turmaId){
+        $this->Turma->id = $turmaId;
+        if (!$this->Turma->exists()) {
+            throw new NotFoundException(__('Turma Invalida'));
+        }
+        if ($this->request->is('post') || $this->request->is('put')) {
+
+            if ($this->Turma->adicionaDocente($this->request->data)) {
+                $this->Session->setFlash('Os docentes desta turma foram actualizados com sucesso', 'default', [
+                    'class' => 'alert alert-success',
+                ]);
+                $this->redirect(['controller' => 'turmas', 'action' => 'ver_turma', $turmaId]);
+            } else {
+                $this->Session->setFlash('Problemas ao adicionar a turma', 'default',
+                    ['class' => 'alert alert-danger']);
+            }
+        }
+
+        $this->Turma->contain(['Disciplina', 'Curso', 'AnoLectivo', 'SemestreLectivo']);
+        $turma = $this->Turma->findById($turmaId);
+        $this->Turma->DocenteTurma->Docente->contain([
+            'Entidade',
+            'UnidadeOrganica',
+        ]);
+        $docentes = $this->Turma->DocenteTurma->Docente->find('list', ['fields' => ["Entidade.name"]]);
+        $tipoDocenteTurmas = $this->Turma->DocenteTurma->TipoDocenteTurma->find('list');
+
+        $this->set('siga_page_title', 'Adicionar Docente a Turma');
+        $this->set('siga_page_overview', '');
+        $this->set(compact('turma', 'docentes', 'tipoDocenteTurmas', 'turmaId'));
+
+    }
+
     /**
      * Cria uma avaliacao para a turma
      *
@@ -297,7 +330,7 @@ class TurmasController extends AppController
 
         $turmasDocente = $this->Turma->DocenteTurma->find('all', [
             'conditions' => [
-                'DocenteTurma.docente_id' => $docente['Docente']['id'],
+                'DocenteTurma.docente_id'              => $docente['Docente']['id'],
                 'DocenteTurma.estado_docente_turma_id' => 1,
             ],
         ]);
@@ -308,14 +341,14 @@ class TurmasController extends AppController
         $conditions['Turma.id'] = $turmaIds;
         $this->paginate = [
             'conditions' => $conditions,
-            'contain' => [
+            'contain'    => [
                 'Disciplina',
                 'AnoLectivo',
                 'PlanoEstudo',
                 'Curso' => ['UnidadeOrganica'],
             ],
-            'limit' => 20,
-            'order' => 'Turma.created DESC',
+            'limit'      => 20,
+            'order'      => 'Turma.created DESC',
         ];
 
         $this->set('turmas', $this->paginate());
@@ -347,8 +380,8 @@ class TurmasController extends AppController
 
         $todasTurmas = $this->Turma->find('list', [
             'conditions' => [
-                'Turma.curso_id' => $turma['Turma']['curso_id'],
-                'Turma.disciplina_id' => $turma['Turma']['disciplina_id'],
+                'Turma.curso_id'       => $turma['Turma']['curso_id'],
+                'Turma.disciplina_id'  => $turma['Turma']['disciplina_id'],
                 'Turma.ano_lectivo_id' => $turma['Turma']['ano_lectivo_id'],
             ],
         ]);
@@ -361,7 +394,7 @@ class TurmasController extends AppController
                     'Entidade' => [],
                 ],
             ],
-            'Turma' => [
+            'Turma'     => [
                 'Curso' => [
                     'fields' => ['name'],
                 ],
@@ -411,7 +444,7 @@ class TurmasController extends AppController
 
         $this->Turma->TurmaTipoAvaliacao->contain([
             'TipoAvaliacao',
-            'EstadoTurmaAvaliacao'
+            'EstadoTurmaAvaliacao',
         ]);
         $turmaTipoAvaliacaos = $this->Turma->TurmaTipoAvaliacao->find('all',
             ['conditions' => ['turma_id' => $this->data['Turma']['id']]]);
@@ -424,11 +457,14 @@ class TurmasController extends AppController
         $disciplinas = $this->Turma->Disciplina->find('list');
         $regente = $this->Turma->getRegente($turmaId);
         $assistentes = $this->Turma->getAllAssistentes($turmaId);
+        $turmaPodeSerFechada = $this->Turma->podeSerFechada($turmaId);
+
+        $estatisticas = $this->Turma->getEstatisticas($turmaId);
 
         $this->set('turma', $this->data);
         $this->set(compact('inscricaos', 'turmaTipoAvaliacaos', 'anolectivos', 'estados', 'mediaTurma',
             'anosemestrecurr', 'cursos', 'planoestudos', 'turnos', 'disciplinas', 'docentes', 'ano_curricular',
-            'regente', 'assistentes'));
+            'regente', 'assistentes', 'turmaPodeSerFechada','estatisticas'));
     }
 
     public function faculdade_actualizar_notas($turmaId)
@@ -464,6 +500,9 @@ class TurmasController extends AppController
 
     }
 
+    public function faculdade_adicionar_assistente($turmaId){
+
+    }
     /**
      * Associa um Docente a Turma em questao
      *
@@ -575,7 +614,7 @@ class TurmasController extends AppController
                         'action' => 'inscrever_aluno',
                         $alunos[0]['Aluno']['id'],
                         $turmaId,
-                        '?' => ['redirect_url' => $redirect_url],
+                        '?'      => ['redirect_url' => $redirect_url],
                     ]);
                 }
 
@@ -667,25 +706,25 @@ class TurmasController extends AppController
 
         $this->paginate = [
             'conditions' => $conditions,
-            'contain' => [
+            'contain'    => [
                 'AnoLectivo',
                 'Disciplina',
                 'PlanoEstudo',
-                'Curso' => ['UnidadeOrganica'],
+                'Curso'     => ['UnidadeOrganica'],
                 'Inscricao' => [
                     'conditions' => [
                         'estado_inscricao_id' => 1,
                     ],
                 ],
             ],
-            'limit' => 20,
-            'order' => 'Turma.created DESC',
+            'limit'      => 20,
+            'order'      => 'Turma.created DESC',
         ];
 
-        $estadoTurma = $this->Turma->EstadoTurma->findById($conditions['Turma.estado_turma_id']);
+        $estadoTurma2 = $this->Turma->EstadoTurma->findById($conditions['Turma.estado_turma_id']);
 
         $turmas = $this->paginate('Turma');
-        $this->set(compact('turmas', 'paginationOptions', 'estadoTurma'));
+        $this->set(compact('turmas', 'paginationOptions', 'estadoTurma','estadoTurma2'));
     }
 
     public function faculdade_inscrever_aluno($alunoId, $turmaId)
@@ -794,8 +833,8 @@ class TurmasController extends AppController
         } else {
             $todasTurmas = $this->Turma->find('list', [
                 'conditions' => [
-                    'Turma.curso_id' => $turma['Turma']['curso_id'],
-                    'Turma.disciplina_id' => $turma['Turma']['disciplina_id'],
+                    'Turma.curso_id'       => $turma['Turma']['curso_id'],
+                    'Turma.disciplina_id'  => $turma['Turma']['disciplina_id'],
                     'Turma.ano_lectivo_id' => $turma['Turma']['ano_lectivo_id'],
                     //'Turma.semestre_curricular'=>$turma['Turma']['semestre_curricular']
                 ],
@@ -809,7 +848,7 @@ class TurmasController extends AppController
                         'Entidade' => [],
                     ],
                 ],
-                'Turma' => [
+                'Turma'     => [
                     'Curso' => [
                         'fields' => ['name'],
                     ],
@@ -820,7 +859,7 @@ class TurmasController extends AppController
             ]);
             $inscricaos2 = $this->Turma->Inscricao->find('all', [
                 'conditions' => [
-                    'turma_id' => $todasTurmasIds,
+                    'turma_id'                          => $todasTurmasIds,
                     'Inscricao.estado_inscricao_id NOT' => 9,
                 ],
             ]);
@@ -875,11 +914,14 @@ class TurmasController extends AppController
         $disciplinas = $this->Turma->Disciplina->find('list');
         $regente = $this->Turma->getRegente($id);
         $assistentes = $this->Turma->getAllAssistentes($id);
+        $turmaPodeSerFechada = $this->Turma->podeSerFechada($id);
+
+        $estatisticas = $this->Turma->getEstatisticas($id);
 
         $this->set('turma', $this->data);
         $this->set(compact('inscricaos', 'turmaTipoAvaliacaos', 'anolectivos', 'estados', 'mediaTurma',
             'anosemestrecurr', 'cursos', 'planoestudos', 'turnos', 'disciplinas', 'docentes', 'ano_curricular',
-            'regente', 'assistentes'));
+            'regente', 'assistentes', 'turmaPodeSerFechada','estatisticas'));
     }
 
     public function fechar_todas_turmas($semestre)
@@ -915,11 +957,11 @@ class TurmasController extends AppController
 
         $turmas = $this->Turma->find('list', [
             'conditions' => [
-                'curso_id' => $turma['Turma']['curso_id'],
-                'ano_lectivo_id' => $turma['Turma']['ano_lectivo_id'],
+                'curso_id'            => $turma['Turma']['curso_id'],
+                'ano_lectivo_id'      => $turma['Turma']['ano_lectivo_id'],
                 'semestre_lectivo_id' => $turma['Turma']['semestre_lectivo_id'],
             ],
-            'order' => 'Turma.name',
+            'order'      => 'Turma.name',
         ]);
         $this->set(compact('turma', 'turmaId', 'turmas'));
     }
@@ -1027,7 +1069,7 @@ class TurmasController extends AppController
                         'action' => 'inscrever_aluno',
                         $alunos[0]['Aluno']['id'],
                         $turmaId,
-                        '?' => ['redirect_url' => $redirect_url],
+                        '?'      => ['redirect_url' => $redirect_url],
                     ]);
                 }
 
@@ -1082,25 +1124,25 @@ class TurmasController extends AppController
         }
         $this->paginate = [
             'conditions' => $conditions,
-            'contain' => [
+            'contain'    => [
                 'AnoLectivo',
                 'Disciplina',
                 'PlanoEstudo',
-                'Curso' => ['UnidadeOrganica'],
+                'Curso'     => ['UnidadeOrganica'],
                 'Inscricao' => [
                     'conditions' => [
                         //'estado_inscricao_id' => 1
                     ],
                 ],
             ],
-            'limit' => 20,
-            'order' => 'Turma.created DESC',
+            'limit'      => 20,
+            'order'      => 'Turma.created DESC',
         ];
 
         $cursos = $this->Turma->Curso->find('list');
         $estadoTurma2 = $this->Turma->EstadoTurma->findById($conditions['Turma.estado_turma_id']);
         $turmas = $this->paginate('Turma');
-        $this->set(compact('turmas', 'paginationOptions', 'estadoTurma2','cursos','estadoTurma'));
+        $this->set(compact('turmas', 'paginationOptions', 'estadoTurma2', 'cursos', 'estadoTurma'));
     }
 
     public function inscrever_aluno($alunoId, $turmaId)
@@ -1142,7 +1184,7 @@ class TurmasController extends AppController
                     ],
                 ],
             ],
-            'Turma' => [
+            'Turma'     => [
                 'Curso' => [
                     'UnidadeOrganica',
                 ],
@@ -1169,7 +1211,7 @@ class TurmasController extends AppController
                     'Entidade' => [],
                 ],
             ],
-            'Turma' => [
+            'Turma'     => [
                 'Curso' => [
                     'fields' => ['name'],
                 ],
@@ -1285,11 +1327,12 @@ class TurmasController extends AppController
         $disciplinas = $this->Turma->Disciplina->find('list');
         $regente = $this->Turma->getRegente($id);
         $assistentes = $this->Turma->getAllAssistentes($id);
+        $turmaPodeSerFechada = $this->Turma->podeSerFechada($turmaId);
 
         $this->set('turma', $this->data);
         $this->set(compact('inscricaos', 'turmaTipoAvaliacaos', 'anolectivos', 'estados', 'mediaTurma',
             'anosemestrecurr', 'cursos', 'planoestudos', 'turnos', 'disciplinas', 'docentes', 'ano_curricular',
-            'regente', 'assistentes'));
+            'regente', 'assistentes', 'turmaPodeSerFechada'));
     }
 
 
@@ -1325,7 +1368,7 @@ class TurmasController extends AppController
                     ],
                 ],
             ],
-            'Turma' => [
+            'Turma'     => [
                 'Curso' => [
                     'fields' => ['name'],
                 ],
@@ -1375,10 +1418,10 @@ class TurmasController extends AppController
         $aluno = $this->Turma->Inscricao->Aluno->findByUserId(CakeSession::read('Auth.User.id'));
         $inscricoesActivas = $this->Turma->Inscricao->find('list', [
             'conditions' => [
-                'aluno_id' => $aluno['Aluno']['id'],
+                'aluno_id'            => $aluno['Aluno']['id'],
                 'estado_inscricao_id' => $this->Turma->Inscricao->estadoInscricoesAbertas,
             ],
-            'fields' => 'turma_id',
+            'fields'     => 'turma_id',
         ]);
 
 
@@ -1413,19 +1456,19 @@ class TurmasController extends AppController
 
         $this->paginate = [
             'conditions' => $conditions,
-            'contain' => [
+            'contain'    => [
                 'AnoLectivo',
                 'Disciplina',
                 'PlanoEstudo',
-                'Curso' => ['UnidadeOrganica'],
+                'Curso'     => ['UnidadeOrganica'],
                 'Inscricao' => [
                     'conditions' => [
                         'estado_inscricao_id' => 1,
                     ],
                 ],
             ],
-            'limit' => 20,
-            'order' => 'Turma.created DESC',
+            'limit'      => 20,
+            'order'      => 'Turma.created DESC',
         ];
 
         $estadoTurma = $this->Turma->EstadoTurma->findById($conditions['Turma.estado_turma_id']);
@@ -1438,34 +1481,36 @@ class TurmasController extends AppController
     {
         parent::beforeFilter();
 
-        $this->Security->unlockedActions = ['faculdade_criar_turma','criar_turma','actualizar_notas'];
+        $this->Security->unlockedActions = ['faculdade_criar_turma', 'criar_turma', 'actualizar_notas'];
 
-    /* if($this->action == 'criar_turma') {
-        $this->Security->csrfUseOnce = false; // We will use CSRF token for more than one time
-    }*/
+        /* if($this->action == 'criar_turma') {
+            $this->Security->csrfUseOnce = false; // We will use CSRF token for more than one time
+        }*/
 
     }
 
-    public function adicionar_estudante($turmaId){
+    public function adicionar_estudante($turmaId)
+    {
 
-        if($this->request->is('post')){
-            try{
+        if ($this->request->is('post')) {
+            try {
                 $this->Turma->adicionaEstudante($this->request->data);
                 $this->Flash->success('Estudante Adicionardo Com Sucesso');
-                $this->redirect(['action'=>'ver_turma',$turmaId]);
-            } catch (Exception $e){
-                $this->Flash->error('Estudante não Adicionado. Motivo: '.$e->getMessage());
+                $this->redirect(['action' => 'ver_turma', $turmaId]);
+            } catch (Exception $e) {
+                $this->Flash->error('Estudante não Adicionado. Motivo: ' . $e->getMessage());
             }
         }
 
-        $this->Turma->contain(['Curso','Disciplina','AnoLectivo','SemestreLectivo']);
+        $this->Turma->contain(['Curso', 'Disciplina', 'AnoLectivo', 'SemestreLectivo']);
         $turma = $this->Turma->findById($turmaId);
         $tipoInscricaos = $this->Turma->Inscricao->TipoInscricao->find('list');
 
-        $this->set(compact('turma','turmaId','tipoInscricaos'));
+        $this->set(compact('turma', 'turmaId', 'tipoInscricaos'));
     }
 
-    public function importar_notas_historico(){
+    public function importar_notas_historico()
+    {
 
     }
 

@@ -1,5 +1,9 @@
 $(function() {
     jsxc.init({
+        app_name: 'SIGA Chat',
+        hideOffline: true,
+        numberOfMsg: 30,
+
         loginForm: {
             form: '#form',
             jid: '#username',
@@ -7,15 +11,32 @@ $(function() {
         },
         logoutElement: $('#logout'),
         root: '/assets/jsxc',
+        otr: {
+            enable: false,
+        },
+        priority: {
+            online: 50,
+            chat: 40,
+            away: 0,
+            xa: 20,
+            dnd: 10
+        },
+        carbons: {
+            /** Enable carbon copies? */
+            enable: true
+        },
         xmpp: {
             url: 'http://siga.uem.mz/http-bind/',
             domain: 'siga.uem.mz',
-            resource: '',
+            resource: 'sigaichat',
             overwrite: true,
             onlogin: true
-        }
+        },
+
     });
 });
+
+
 $(document).on('ready.roster.jsxc', function(){
     $(document).trigger('toggle.roster.jsxc', ['hidden', 0]);
 });

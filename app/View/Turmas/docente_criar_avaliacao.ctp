@@ -47,7 +47,7 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-sm-2 col-sm-offset-8">
+        <div class="col-sm-4 col-sm-offset-6">
             <?php echo $this->Form->hidden('turma_id', ['value' => $turma['Turma']['id']]); ?>
             <?php echo $this->Form->hidden('estado_turma_avaliacao_id', ['value' => 1]); ?>
             <?php echo $this->Form->hidden('docente_id', ['value' => $docente['Docente']['id']]); ?>

@@ -28,7 +28,7 @@ class DocentesController extends AppController
         $this->Security->csrfCheck = false;
 
         if ($this->request->is('ajax')) {
-            $this->Auth->allow('faculdade_autocomplete');
+            $this->Auth->allow('faculdade_autocomplete','docente_autocomplete');
         }
     }
 
@@ -409,6 +409,40 @@ class DocentesController extends AppController
     }
 
     public function faculdade_autocomplete()
+    {
+        $termo = $this->request->query('q');
+
+        $this->Docente->contain(['Entidade']);
+
+        $data = $this->Docente->find('all', [
+            'conditions' => [
+                'OR' => [
+                    'Entidade.name LIKE' => '%' . $termo . '%',
+                    'Entidade.nuit LIKE' => '%' . $termo . '%',
+                ],
+            ],
+            'limit' => '20',
+            'fields' => ['Docente.id', 'Entidade.name as name', 'Entidade.nuit as nuit'],
+        ]);
+
+        $docente = Hash::extract($data, '{n}.Docente');
+        $entidade = Hash::extract($data, '{n}.Entidade');
+
+
+        $entidade = Hash::remove($entidade, '{n}.id');
+        $resultado = Hash::merge($docente, $entidade);
+        $this->autoRender = false;
+        $json = json_encode($resultado);
+
+        echo $json;
+
+
+    }
+
+    /**
+     * @todo implementar no controller de Ajax
+     */
+    public function docente_autocomplete()
     {
         $termo = $this->request->query('q');
 

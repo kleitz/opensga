@@ -349,6 +349,10 @@ class Turma extends AppModel
     public function adicionaDocente($data)
     {
         $turma = $this->findById($data['DocenteTurma']['turma_id']);
+        if (empty($turma)) {
+            throw new NotFoundException('Turma não encontrada');
+        }
+
         $docenteDisciplinaExiste = $this->DocenteTurma->Docente->DocenteDisciplina->find('first', [
             'conditions' => [
                 'docente_id'        => $data['DocenteTurma']['docente_id'],
@@ -373,14 +377,27 @@ class Turma extends AppModel
             }
         }
 
-        if ($this->DocenteTurma->save($data)) {
-            return true;
-        } else {
-            debug($data);
-            debug($this->DocenteTurma->validationErrors);
-
-            return false;
+        //primeiro verificar se nao tem regente essa turma
+        if ($data['DocenteTurma']['tipo_docente_turma_id'] == 1) {
+            $regenteExiste = $this->DocenteTurma->find('first', ['conditions' => [
+                'turma_id'=>$data['DocenteTurma']['turma_id'],
+                'tipo_docente_turma_id'=>1,
+                'estado_docente_turma_id'=>1,
+            ]]);
+            if ($regenteExiste) {
+                $this->DocenteTurma->id = $regenteExiste['DocenteTurma']['id'];
+                $this->DocenteTurma->set('estado_docente_turma_id', 4);
+                if (!$this->DocenteTurma->save()) {
+                    throw new DataNotSavedException($this->DocenteTurma->validationErrors);
+                }
+            }
         }
+
+        if (!$this->DocenteTurma->save($data)) {
+            throw new DataNotSavedException($this->DocenteTurma->validationErrors);
+        }
+
+        return true;
     }
 
     /**
@@ -957,24 +974,24 @@ class Turma extends AppModel
         return $resultado;
     }
 
-    // Devolve o nome do plano
+    /**
+     * @todo Calcular esses valores
+     * @param $turmaId
+     * @return array
+     */
+    public function getEstatisticas($turmaId){
+        $estatisticas = [];
+        $totalAlunos = null;
+        $totalHomens = null;
+        $totalMulheres = null;
+        $idadeMedia = null;
+        $estatisticas['total_alunos'] = $totalAlunos;
+        $estatisticas['total_homens'] = $totalHomens;
+        $estatisticas['total_mulheres'] = $totalMulheres;
+        $estatisticas['idade_media'] = $idadeMedia;
 
-    function getDocente($turma_id)
-    {
-        $query = "select tf.name from t0010turmas tt, t0013inscricaos ti, funcionarios tf where ti.t0010turma_id = tt.id and tt.funcionario_id = tf.id and ti.t0010turma_id = {$turma_id}";
-        //var_dump($query);
-        $resultado = $this->query($query);
+        return $estatisticas;
 
-        return $resultado;
-    }
-
-    function getPlanoEstudo($turma_id)
-    {
-        $query = "select tp.name from t0010turmas tt, t0005planoestudos tp, t0013inscricaos ti where ti.t0010turma_id = tt.id and  tt.t0005planoestudo_id = tp.id and ti.t0010turma_id = {$turma_id}";
-        //var_dump($query);
-        $resultado = $this->query($query);
-
-        return $resultado;
     }
 
     public function getRegente($turmaId)
@@ -1119,7 +1136,7 @@ class Turma extends AppModel
                     'tipo_matricula_id'   => 2,
                 ],
             ];
-            if(!$this->Inscricao->Aluno->Matricula->renovaMatricula($arrayMatricula)){
+            if (!$this->Inscricao->Aluno->Matricula->renovaMatricula($arrayMatricula)) {
                 throw new DataNotSavedException($this->Inscricao->Aluno->Matricula->validationErrors);
             }
             $matricula = $this->Inscricao->Aluno->Matricula->findByAlunoIdAndAnoLectivoId($aluno['Aluno']['id'],
@@ -1132,7 +1149,7 @@ class Turma extends AppModel
         $data['Inscricao']['turma_inscricao_id'] = $data['Inscricao']['turma_id'];
         $data['Inscricao']['turma_frequencia_id'] = $data['Inscricao']['turma_id'];
         $this->Inscricao->create();
-        if(!$this->Inscricao->save($data)){
+        if (!$this->Inscricao->save($data)) {
             throw new DataNotSavedException($this->Inscricao->validationErrors);
         }
         return true;

@@ -16,7 +16,7 @@
                         Visao Geral
                     </a>
                 </li>
-                <li>
+                <!--<li>
                     <a href="#panel_detalhes" data-toggle="tab">
                         Detalhes
                     </a>
@@ -40,7 +40,7 @@
                     <a href="#panel_mensagens" data-toggle="tab">
                         Mensagens
                     </a>
-                </li>
+                </li>-->
 
             </ul>
             <div class="tab-content">
@@ -171,7 +171,7 @@
 
 
                                 <div class="col-sm-2">
-                                    <?php echo $this->Html->link($this->Html->image('icons/student/edit-student.png') . "<br />Editar Perfil",
+                                    <?php echo $this->Html->link('<i class="fa fa-user fa-2x"></i>	Editar Perfil',
                                             [
                                                     'controller' => 'docentes',
                                                     'action'     => 'editar_docente',
@@ -183,7 +183,7 @@
 
 
                                 <div class="col-sm-2">
-                                    <?php echo $this->Html->link($this->Html->image('icons/packs/crystal/48x48/apps/printer.png') . "<br />Enviar SMS",
+                                    <?php echo $this->Html->link('<i class="fa fa-user fa-2x"></i>	Enviar SMS',
                                             [
                                                     'controller' => 'messages',
                                                     'action'     => 'enviar_sms',
@@ -294,7 +294,7 @@
                                     </div>
                                 </div>
                                 <div style="height:300px" class="panel-body panel-scroll ps-container">
-                                    <ul class="activities">
+                                    <!--<ul class="activities">
                                         <li>
                                             <a href="javascript:void(0)" class="activity">
                                                 <i class="clip-upload-2 circle-icon circle-green"></i>
@@ -316,7 +316,7 @@
                                             </a>
                                         </li>
 
-                                    </ul>
+                                    </ul>-->
                                     <div class="ps-scrollbar-x-rail"
                                          style="left: 0px; bottom: 3px; width: 1051px; display: none;">
                                         <div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div>

@@ -30,7 +30,7 @@
                     ['controller' => 'avaliacaos', 'action' => 'index'],
                     ['escape' => false, 'class' => 'btn btn-icon btn-block']) ?>
         </div>
-        <div class="col-sm-2">
+       <!-- <div class="col-sm-2">
             <?php echo $this->Html->link('<i class="fa fa-user fa-2x"></i>	Assistentes',
                     ['controller' => 'turmas', 'action' => 'index'],
                     ['escape' => false, 'class' => 'btn btn-icon btn-block']) ?>
@@ -44,7 +44,7 @@
             <?php echo $this->Html->link('<i class="fa fa-user fa-2x"></i>	Administrar Unidade Organica',
                     ['controller' => 'relatorios', 'action' => 'resumo_semestral'],
                     ['escape' => false, 'class' => 'btn btn-icon btn-block']) ?>
-        </div>
+        </div>-->
     </div>
 </div>
 

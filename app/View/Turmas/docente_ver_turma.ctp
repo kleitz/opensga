@@ -30,12 +30,12 @@
                 ['escape' => false, 'class' => 'btn btn-icon btn-block']) ?>
 
     </div>
-    <div class="col-sm-2">
+    <!--<div class="col-sm-2">
         <?php echo $this->Html->link('<i class="fa fa-book  fa-2x"></i>Plano de Aulas',
                 ['controller' => 'aulas', 'action' => 'index', $turma['Turma']['id']],
                 ['escape' => false, 'class' => 'btn btn-icon btn-block']) ?>
 
-    </div>
+    </div>-->
     <div class="col-sm-2">
         <?php echo $this->Html->link('<i class="fa fa-edit  fa-2x"></i>Criar Nova Avaliacao',
                 ['controller' => 'turmas', 'action' => 'criar_avaliacao', $turma['Turma']['id']],
@@ -55,9 +55,14 @@
 
     </div>
     <div class="col-sm-2">
-        <?php echo $this->Html->link('<i class="fa fa-clock-o  fa-2x"></i>Fechar Turma',
-                ['controller' => 'turmas', 'action' => 'fechar_turma', $turma['Turma']['id']],
-                ['escape' => false, 'class' => 'btn btn-icon btn-block']) ?>
+        <?php
+
+            if($turmaPodeSerFechada===true) {
+                echo $this->Html->link('<i class="fa fa-clock-o  fa-2x"></i>Fechar Turma',
+                    ['controller' => 'turmas', 'action' => 'fechar_turma', $turma['Turma']['id']],
+                    ['escape' => false, 'class' => 'btn btn-icon btn-block']);
+            }
+        ?>
 
     </div>
 <?php $this->end(); ?>

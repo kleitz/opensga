@@ -1,6 +1,7 @@
 <?php
 
 App::uses('AppController', 'Controller');
+App::uses('OpenSGAAmazonS3', 'Lib');
 
 /**
  * OpenSGA - Sistema de Gest�o Acad�mica
@@ -140,7 +141,7 @@ class UsersController extends AppController
 
         parent::beforeFilter();
 
-        $this->Auth->allow(['login', 'logout', 'opauth_complete', 'perfil', 'google_login', 'googlelogin']);
+        $this->Auth->allow(['login', 'logout', 'opauth_complete', 'perfil', 'google_login', 'googlelogin','get_profile_picture']);
         $this->Security->unlockedActions = ['login'];
 
         if ($this->action == 'login' or $this->action == 'logout') {
@@ -150,6 +151,36 @@ class UsersController extends AppController
 
         }
 
+    }
+
+    public function get_profile_picture($username){
+        $AmazonS3 = new OpenSGAAmazonS3();
+        $signedUrl = '';
+        $user = $this->User->findByUsername($username);
+        if(empty($user)){
+            $file = '/Fotos/profile2.png';
+            $signedUrl = $AmazonS3->getSignedUrl($file,null,'+1000 minutes');
+            $this->response->body($signedUrl);
+            return $this->response;
+        }
+        if($this->User->isAluno($user['User']['id'])){
+            $aluno = $this->User->Entidade->Aluno->findByUserId($user['User']['id']);
+
+            $file = '/Fotos/Estudantes/' . $aluno['Aluno']['ano_ingresso'] . '/' . $aluno['Aluno']['codigo'] . '.jpg';
+       if (!$signedUrl = $AmazonS3->getSignedUrl($file,null,'+1000 minutes')) {
+           $file = '/Fotos/profile2.png';
+           $signedUrl = $AmazonS3->getSignedUrl($file,null,'+1000 minutes');
+           $this->response->body($signedUrl);
+       }
+            $this->response->body($signedUrl);
+        } else{
+            $file = '/Fotos/profile2.png';
+            $signedUrl = $AmazonS3->getSignedUrl($file,null,'+1000 minutes');
+            $this->response->body($signedUrl);
+
+        }
+
+        return $this->response;
     }
 
     function beforeRender()
@@ -230,6 +261,11 @@ class UsersController extends AppController
         } else {
             throw new NotFoundException('Estudante não encontrado. Mostrar foto');
         }
+    }
+
+    public function docente_perfil()
+    {
+        $this->redirect(['controller' => 'docentes', 'action' => 'meu_perfil', 'docente' => true]);
     }
 
     function docente_trocar_senha($id = null)

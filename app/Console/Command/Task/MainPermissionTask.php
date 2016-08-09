@@ -155,6 +155,7 @@ class MainPermissionTask extends AppShell
                 $comandos[] = "acl grant User.{$funcionario['User']['id']} controllers/Users/faculdade_logout";
                 $comandos[] = "acl grant User.{$funcionario['User']['id']} controllers/Users/faculdade_trocar_senha";
 
+                $comandos[] = "acl grant User.{$funcionario['User']['id']} controllers/Turmas/faculdade_adicionar_assistente";
                 $comandos[] = "acl grant User.{$funcionario['User']['id']} controllers/Turmas/faculdade_criar_avaliacao";
                 $comandos[] = "acl grant User.{$funcionario['User']['id']} controllers/Turmas/faculdade_criar_turma";
                 $comandos[] = "acl grant User.{$funcionario['User']['id']} controllers/Turmas/faculdade_fechar_turma";
@@ -617,6 +618,7 @@ class MainPermissionTask extends AppShell
 
             $comandos[] = "acl grant User.{$docente['Entidade']['User']['id']} controllers/Pages/docente_home";
 
+            $comandos[] = "acl grant User.{$docente['Entidade']['User']['id']} controllers/Turmas/docente_adicionar_assistente";
             $comandos[] = "acl grant User.{$docente['Entidade']['User']['id']} controllers/Turmas/docente_criar_avaliacao";
             $comandos[] = "acl grant User.{$docente['Entidade']['User']['id']} controllers/Turmas/docente_index";
             $comandos[] = "acl grant User.{$docente['Entidade']['User']['id']} controllers/Turmas/docente_ver_turma";
@@ -631,6 +633,8 @@ class MainPermissionTask extends AppShell
 
             $comandos[] = "acl grant User.{$docente['Entidade']['User']['id']} controllers/Docentes/docente_meu_perfil";
             $comandos[] = "acl grant User.{$docente['Entidade']['User']['id']} controllers/Pages/docente_home";
+
+            $comandos[] = "acl grant User.{$docente['Entidade']['User']['id']} controllers/Users/docente_perfil";
             $comandos[] = "acl grant User.{$docente['Entidade']['User']['id']} controllers/Users/docente_trocar_senha";
             $comandos[] = "acl grant User.{$docente['Entidade']['User']['id']} controllers/Users/docente_changeLoginProfile";
         }
