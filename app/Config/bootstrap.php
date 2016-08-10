@@ -28,14 +28,14 @@ CakeLog::config('default', [
 
 // Do plural pro singular
 Inflector::rules('singular', [
-    'rules' => [
+    'rules'       => [
         '/^(.*)(oes|aes|aos)$/i' => '\1ao',
-        '/^(.*)(ns)$/i' => '\1m',
-        '/^(.*)(es)$/i' => '\1e',
+        '/^(.*)(ns)$/i'          => '\1m',
+        '/^(.*)(es)$/i'          => '\1e',
     ],
-    'irregular' => [
+    'irregular'   => [
 
-        'paes' => 'pao',
+        'paes'   => 'pao',
         'perfis' => 'perfil',
     ],
     'uninflected' => [],
@@ -43,15 +43,15 @@ Inflector::rules('singular', [
 
 // Do singular pro plural
 Inflector::rules('plural', [
-    'rules' => [
+    'rules'       => [
         '/^(.*)ao$/i' => '\1oes',
         '/^(.*)ao$/i' => '\1aos',
-        '/^(.*)m$/i' => '\1ns',
-        '/^(.*)e$/i' => '\1es',
+        '/^(.*)m$/i'  => '\1ns',
+        '/^(.*)e$/i'  => '\1es',
     ],
-    'irregular' => [
+    'irregular'   => [
 
-        'pao' => 'paes',
+        'pao'    => 'paes',
         'perfil' => 'perfis',
     ],
     'uninflected' => [],
@@ -72,34 +72,32 @@ Configure::load('database', 'database');
 
 Configure::write('Error', [
     'handler' => 'ErrorHandler::handleError',
-    'level' => E_ALL,
-    'trace' => true,
+    'level'   => E_ALL,
+    'trace'   => true,
 ]);
 
 Configure::write('Exception', [
-    'handler' => 'ErrorHandler::handleException',
+    'handler'  => 'ErrorHandler::handleException',
     'renderer' => 'ExceptionRenderer',
-    'log' => true,
+    'log'      => true,
 ]);
 
 
-if (Configure::read('debug') != 0) {
-    CakePlugin::load('WhoopsCakephp', ['bootstrap' => true]);
-}
+CakePlugin::load('WhoopsCakephp', ['bootstrap' => true]);
 
 
 CakeNumber::addFormat(
     'MZN', [
-        'before' => 'MT',
-        'after' => false,
-        'zero' => 0,
-        'places' => 2,
-        'thousands' => '.',
-        'wholeSymbol' => ' MT',
+        'before'        => 'MT',
+        'after'         => false,
+        'zero'          => 0,
+        'places'        => 2,
+        'thousands'     => '.',
+        'wholeSymbol'   => ' MT',
         'wholePosition' => 'after',
-        'decimals' => ',',
-        'negative' => '()',
-        'escape' => true,
+        'decimals'      => ',',
+        'negative'      => '()',
+        'escape'        => true,
     ]
 );
 

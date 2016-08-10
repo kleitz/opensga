@@ -24,6 +24,8 @@
  * @subpackage    opensga.core.controller
  * @since         OpenSGA v 0.10.0.0
  *
+ * @property $TurmaTipoAvaliacao TurmaTipoAvaliacao
+ * @property $Aluno Aluno
  */
 class Avaliacao extends AppModel
 {
@@ -124,21 +126,52 @@ class Avaliacao extends AppModel
         return $resultado;
     }
 
-    function getAlunosByTurma($turma_id, $epocadeavaliacao)
-    {
-        if ($epocadeavaliacao == 1) {
-            $query = "select ti.id,ta.codigo, ta.name, ti.id,ti.notafinal,ti.notafrequencia,ti.estadoinscricao_id FROM Alunos ta, inscricaos ti          where ti.Aluno_id = ta.id and ti.estadoinscricao_id = 1 and ti.turma_id = {$turma_id}";
-        }
-        if ($epocadeavaliacao == 2) {
-            $query = "select ti.id,ta.codigo, ta.name, ti.id,ti.notafinal,ti.notafrequencia,ti.estadoinscricao_id FROM Alunos ta, inscricaos ti          where ti.Aluno_id = ta.id and (ti.estadoinscricao_id = 7 ) and ti.turma_id = {$turma_id}";
-        }
-        if ($epocadeavaliacao == 3) {
-            $query = "select ti.id,ta.codigo, ta.name, ti.id,ti.notafinal,ti.notafrequencia,ti.estadoinscricao_id FROM Alunos ta, inscricaos ti          where ti.Aluno_id = ta.id and (ti.estadoinscricao_id = 3) and ti.turma_id = {$turma_id}";
-        }
-        $resultado = $this->query($query);
+    public function getAllByDocente($docenteId){
+        $turmas = $this->TurmaTipoAvaliacao->Turma->getAllByDocente($docenteId);
+        $turmaIds = Hash::extract($turmas,'{n}.Turma.id');
 
-        //var_dump($query);
-        return $resultado;
+        $options['joins'] = array(
+            array('table' => 'turma_tipo_avaliacaos',
+                  'alias' => 'TurmaTipoAvaliacao',
+                  'type' => 'LEFT',
+                  'conditions' => array(
+                      'TurmaTipoAvaliacao.id = Avaliacao.turma_tipo_avaliacao_id',
+                  )
+            ),
+            array('table' => 'turmas',
+                  'alias' => 'Turma',
+                  'type' => 'LEFT',
+                  'conditions' => array(
+                      'Turma.id = TurmaTipoAvaliacao.turma_id',
+                  )
+            ),
+            array('table' => 'cursos',
+                  'alias' => 'Curso',
+                  'type' => 'LEFT',
+                  'conditions' => array(
+                      'Curso.id = Turma.curso_id',
+                  )
+            ),
+            array('table' => 'disciplinas',
+                  'alias' => 'Disciplina',
+                  'type' => 'LEFT',
+                  'conditions' => array(
+                      'Disciplina.id = Turma.disciplina_id',
+                  )
+            ),
+            array('table' => 'unidade_organicas',
+                  'alias' => 'UnidadeOrganica',
+                  'type' => 'LEFT',
+                  'conditions' => array(
+                      'UnidadeOrganica.id = Curso.unidade_organica_id',
+                  )
+            ),
+        );
+        $options['fields']= '*';
+        $avaliacaos  = $this->find('all', $options);
+        debug($this->getLog());
+        debug($avaliacaos);
+        die();
     }
 
     function ifExist($inscricao_id)
@@ -164,14 +197,7 @@ class Avaliacao extends AppModel
         $this->layout = 'ajax';
     }
 
-    function getCodigoName($aluno_id)
-    {
-        $query = "SELECT ta.codigo, ta.name FROM Alunos ta, t0013inscricaos ti WHERE ti.Aluno_id = ta.id AND ti.Aluno_id = {$aluno_id} ";
-        $resultado = $this->query($query);
 
-        //var_dump($resultado);
-        return $resultado;
-    }
 
     public function gravaNotas($data)
     {

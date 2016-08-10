@@ -46,9 +46,9 @@ class PagesController extends AppController
     {
         parent::beforeFilter();
         $user = $this->Auth->user();
-        $this->Auth->allow('email_oficial_uem', 'email', 'webmail');
+        $this->Auth->allow('email_oficial_uem', 'email', 'webmail','offline');
         if ($user != null) {
-            $this->Auth->allowedActions = ['display', 'email_oficial_uem', 'webmail', 'email'];
+            $this->Auth->allowedActions = ['display', 'email_oficial_uem', 'webmail', 'email','offline'];
         }
 
 
@@ -253,6 +253,12 @@ class PagesController extends AppController
     function index()
     {
 
+    }
+
+    public function offline(){
+        die();
+        $this->response->body('Pagina Offline');
+        return $this->response;
     }
 
     public function webmail()

@@ -2,9 +2,6 @@
     $this->BreadCumbs->addCrumb('Alunos', '/alunos');
     $this->BreadCumbs->addCrumb(h($aluno['Entidade']['name']), '/alunos/perfil_estudante/' . $aluno['Aluno']['id']);
     $this->BreadCumbs->addCrumb('Mudanca de Curso', '/alunos/index');
-
-    echo $this->Html->css('/assets/plugins/select2/select2.css');
-    echo $this->Html->css('/assets/plugins/datepicker/css/datepicker.css');
 ?>
 <?php $this->extend('/Common/aluno_action'); ?>
 

@@ -39,6 +39,12 @@ class AvaliacaosController extends AppController
 
     function docente_index()
     {
+        $userId = $this->Session->read('Auth.User.id');
+        $docente = $this->Avaliacao->TurmaTipoAvaliacao->Turma->DocenteTurma->Docente->getByUserID($userId);
+        $avaliacaos = $this->Avaliacao->getAllByDocente($docente['Docente']['id']);
+
+        $this->set('avaliacaos', $this->paginate());
+
 
     }
 

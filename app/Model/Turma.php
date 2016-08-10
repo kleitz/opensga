@@ -808,10 +808,9 @@ class Turma extends AppModel
 
         return $turmas;
     }
+    
 
-    // Contacta os alunos inscritos numa determinada turma
-
-    public function getAllTurmasByDocente($docenteId, $estadoTurmaId = 1)
+    public function getAllByDocente($docenteId, $estadoTurmaId = 1)
     {
         $turmasDocente = $this->DocenteTurma->findAllByDocenteId($docenteId);
 

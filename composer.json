@@ -48,6 +48,10 @@
     {
       "type": "git",
       "url": "https://github.com/backstageel/php-openfire-restapi.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/detook/phinx.git"
     }
   ],
   "require": {
@@ -86,7 +90,8 @@
     "sebastian/phpcpd": "*",
     "theseer/phpdox":"*",
     "sebastian/phpdcd": "*",
-    "oldskool/whoops-cakephp": "dev-cake2"
+    "oldskool/whoops-cakephp": "dev-cake2",
+    "robmorgan/phinx": "dev-schema-dump"
   },
   "bin": [
     "lib/Cake/Console/cake"
