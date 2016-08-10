@@ -5,7 +5,7 @@
 <!--[if IE 9]>
 <html class="ie9 no-js" lang="en"><![endif]-->
 <!--[if !IE]><!-->
-<html lang="en" class="no-js" manifest="/cache.manifest">
+<html lang="en" class="no-js" manifest="/cache2.manifest">
 <!--<![endif]-->
 <!-- start: HEAD -->
 <head>
