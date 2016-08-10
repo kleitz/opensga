@@ -1,3 +1,5 @@
-CACHE MANIFEST
+NETWORK:
+*
 
-Pages/offline
+CACHE:
+FALLBACK:
