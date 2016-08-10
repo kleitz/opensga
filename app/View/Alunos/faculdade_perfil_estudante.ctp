@@ -45,7 +45,7 @@
         </div>
         <div class="col-sm-2">
             <?php echo $this->Html->link('<i class="fa fa-print  fa-2x"></i>	Ficha Cadastro<span class="badge badge-danger"> Brevemente </span>',
-                    ['controller' => 'alunos', 'action' => 'ficha_cadastro', $aluno['Aluno']['id2']],
+                    ['controller' => 'alunos', 'action' => 'ficha_cadastro', $aluno['Aluno']['id']],
                     ['target' => 'blank', 'escape' => false, 'class' => 'btn btn-icon btn-block']) ?>
 
         </div>
