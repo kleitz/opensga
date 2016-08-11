@@ -27,11 +27,11 @@ class AppController extends Controller
     public $components = [
         'Security',
         'Acl',
-        'Auth' => [
+        'Auth'             => [
             'authenticate' => 'Blowfish',
         ],
         'Session',
-        'RequestHandler' => ['viewClassMap' => ['xlsx' => 'CakeExcel.Excel']],
+        'RequestHandler'   => ['viewClassMap' => ['xlsx' => 'CakeExcel.Excel']],
         'Paginator',
         'Cookie',
         'DebugKit.Toolbar' => [
@@ -42,13 +42,13 @@ class AppController extends Controller
 
     ];
     public $helpers = [
-        'Html' => ['className' => 'BoostCake.BoostCakeHtml'],
-        'Form' => ['className' => 'BoostCake.BoostCakeForm'],
+        'Html'      => ['className' => 'BoostCake.BoostCakeHtml'],
+        'Form'      => ['className' => 'BoostCake.BoostCakeForm'],
         'Paginator' => ['className' => 'BoostCake.BoostCakePaginator'],
         'AclLink',
         'BreadCumbs',
         'Session',
-        'Js' => [
+        'Js'        => [
             'MyJquery',
         ],
         'EventsCalendar',
@@ -76,11 +76,13 @@ class AppController extends Controller
         }
         Configure::write('Config.language', $config_language);
         setlocale(LC_ALL, 'ptb');
-        if ($this->Auth->loggedIn()) {
+        if ($this->Auth->user()) {
             AuditableConfig::$responsibleId = $this->Auth->user('id');
         }
         AuditableConfig::$Logger = ClassRegistry::init('Auditable.Logger');
         $this->Security->csrfExpires = "+10 minutes";
+        $this->Security->blackHoleCallback = 'blackhole';
+
         $this->Auth->authorize = ['Actions' => ['actionPath' => 'controllers']];
         $this->Auth->autoRedirect = false;
         $this->Auth->loginError = "Nome de Usuário ou senha incorrectas";
@@ -118,8 +120,8 @@ class AppController extends Controller
                         if ($this->request->plugin != 'cooperacao') {
                             $this->redirect([
                                 'controller' => 'cooperacao_acordos',
-                                'action' => 'home',
-                                'plugin' => 'cooperacao',
+                                'action'     => 'home',
+                                'plugin'     => 'cooperacao',
                             ]);
                         }
                         break;
@@ -152,8 +154,8 @@ class AppController extends Controller
                                 'default', ['class' => 'alert info']);
                             $this->redirect([
                                 'controller' => 'cooperacao_acordos',
-                                'action' => 'home',
-                                'plugin' => 'cooperacao',
+                                'action'     => 'home',
+                                'plugin'     => 'cooperacao',
                             ]);
                         }
                         break;
@@ -171,8 +173,8 @@ class AppController extends Controller
                                 'default', ['class' => 'alert info']);
                             $this->redirect([
                                 'controller' => 'pages',
-                                'action' => 'home',
-                                'plugin' => 'cea',
+                                'action'     => 'home',
+                                'plugin'     => 'cea',
                             ]);
                         }
                         break;
@@ -182,8 +184,8 @@ class AppController extends Controller
                                 'default', ['class' => 'alert info']);
                             $this->redirect([
                                 'controller' => 'pages',
-                                'action' => 'home',
-                                'plugin' => 'cend',
+                                'action'     => 'home',
+                                'plugin'     => 'cend',
                             ]);
                         }
                         break;
@@ -227,18 +229,18 @@ class AppController extends Controller
             $totalMensagensPendentes = $this->Message->MessageUser->find('count', [
                 'conditions' => [
                     'MessageUser.user_id' => $userId,
-                    'message_folder_id' => 1,
-                    'estado_message_id' => 1,
+                    'message_folder_id'   => 1,
+                    'estado_message_id'   => 1,
                 ],
             ]);
             $this->Message->MessageUser->contain(['Message' => 'User']);
             $headerMessages = $this->Message->MessageUser->find('all', [
                 'conditions' => [
                     'MessageUser.user_id' => $userId,
-                    'message_folder_id' => 1,
-                    'estado_message_id' => 1,
+                    'message_folder_id'   => 1,
+                    'estado_message_id'   => 1,
                 ],
-                'limit' => 5,
+                'limit'      => 5,
             ]);
             $totalNotificacoesPendentes = 0;
             $totalTarefasPendentes = 0;
@@ -256,11 +258,19 @@ class AppController extends Controller
 
         }
 
-        //$onlineUsers = $this->OpensgaSession->getActiveUsers();
-
         $this->set(compact('totalMensagensPendentes', 'totalTarefasPendentes', 'totalNotificacoesPendentes',
             'headerMessages', 'tarefas',
-            'notificacoes','onlineUsers'));
+            'notificacoes', 'onlineUsers'));
+    }
+
+    public function blackhole($type) {
+        if($type=='csrf'){
+            $this->Flash->warning('Algo estranho aconteceu com o sistema!');
+            $this->redirect($this->referer());
+        } else{
+            throw new BadRequestException(__d('cake_dev', 'The request has been black-holed'));
+        }
+        // handle errors.
     }
 
 

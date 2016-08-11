@@ -31,7 +31,7 @@ Router::connect('/', ['controller' => 'pages', 'action' => 'home']);
 Router::connect('/azgo', ['controller' => 'alunos', 'action' => 'get_estudante_azgo']);
 Router::connect('/webmail', ['controller' => 'pages', 'action' => 'webmail']);
 Router::connect('/email', ['controller' => 'pages', 'action' => 'email']);
-Router::connect('/email_oficial_da_uem', ['controller' => 'pages', 'action' => 'email']);
+Router::connect('/email_oficial_uem', ['controller' => 'pages', 'action' => 'email']);
 Router::connect('/pre_registo_alumni', ['controller' => 'alumni_candidato_alumnis', 'action' => 'cadastro_alumni']);
 Router::connect('/docente', ['controller' => 'pages', 'action' => 'home', 'docente' => true]);
 Router::connect('/estudante', ['controller' => 'pages', 'action' => 'home', 'estudante' => true]);

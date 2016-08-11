@@ -1,10 +1,6 @@
 <?php
     $this->BreadCumbs->addCrumb('Alunos', '/alunos');
     $this->BreadCumbs->addCrumb('Lista de Alunos', '/alunos/index');
-
-
-    echo $this->Html->css('/assets/plugins/select2/select2.css');
-    echo $this->Html->css('/assets/plugins/DataTables/media/css/DT_bootstrap.css');
 ?>
 
     <div class="row">

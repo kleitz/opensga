@@ -28,6 +28,8 @@
 	$i = 1;
 	foreach ($inscricoesActivas as $inscricao) {
 
+		debug($inscricao);
+
 		$this->PhpExcel->xls->getActiveSheet()->setCellValue('A' . $linha_actual,
 			$inscricao['Turma']['Disciplina']['name']);
 		//$this->PhpExcel->xls->getActiveSheet()->setCellValue('D' . $linha_actual, $inscricao['Turma']['Turno']['name']);
