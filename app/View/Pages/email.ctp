@@ -32,11 +32,6 @@
                     Direcção do Registo Académico passarão a ter uma referência ao Email institucional do respectivo
                     esrtudante, sendo esta,porém, uma forma alternativa de saber qual é o seu Email Institucional na UEM
                 </p>
-                <p><b>3. Atravês de Mensagem SMS</b><br/>
-                    Caso as listas com os Emails Institucionais não tenham sido afixadas na sua Faculdade/Departamento,
-                    poderá recorrer ao uso de Mensagem SMS para ter o seu endereço de email institucional. Para tal,
-                    basta enviar uma SMS para o número 96666 no formato "email X" onde X é o seu número de Estudante.
-                    Ai, terá uma resposta do tipo "O Email Institucional do Estudante X é nome@uem.ac.mz". </p>
 
                 <h3>Senha de Acesso ao Seu Email</h3>
                 <p>Para além do Endereço de Email, é necessário que o usuário tenha uma Senha de Acesso, para poder

@@ -2,7 +2,7 @@ $(function() {
     jsxc.init({
         app_name: 'SIGA Chat',
         hideOffline: true,
-        numberOfMsg: 30,
+        numberOfMsg: 10,
 
         loginForm: {
             form: '#form',
@@ -13,13 +13,6 @@ $(function() {
         root: '/assets/jsxc',
         otr: {
             enable: false,
-        },
-        priority: {
-            online: 50,
-            chat: 40,
-            away: 0,
-            xa: 20,
-            dnd: 10
         },
         carbons: {
             /** Enable carbon copies? */
